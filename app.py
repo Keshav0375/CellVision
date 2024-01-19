@@ -4,8 +4,7 @@ from cellSegmentation.utils.main_utils import decodeImage, encodeImageIntoBase64
 from flask import Flask, request, jsonify, render_template,Response
 from flask_cors import CORS, cross_origin
 from cellSegmentation.constant.application import APP_HOST, APP_PORT
-
-
+import shutil
 
 
 app = Flask(__name__)
@@ -42,7 +41,7 @@ def predictRoute():
 
         opencodedbase64 = encodeImageIntoBase64("runs/segment/predict/inputImage.jpg")
         result = {"image": opencodedbase64.decode('utf-8')}
-        os.system("rm -rf runs")
+        shutil.rmtree("runs")
 
     except ValueError as val:
         print(val)
@@ -60,7 +59,7 @@ def predictRoute():
 if __name__ == "__main__":
     clApp = ClientApp()
     app.run(host=APP_HOST, port=APP_PORT)
-    app.run(host='0.0.0.0', port=80) #for AZURE
+    
 
 
 
